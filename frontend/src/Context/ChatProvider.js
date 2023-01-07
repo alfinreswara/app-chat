@@ -7,6 +7,7 @@ const ChatProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [chats, setChats] = useState([]);
   const [selectChat, setSelectChat] = useState();
+  const [messages, setMessages] = useState([]);
   const [notifications, setNotifications] = useState([]);
   let history = useHistory();
   useEffect(() => {
@@ -24,6 +25,8 @@ const ChatProvider = ({ children }) => {
         setSelectChat,
         chats,
         setChats,
+        messages,
+        setMessages,
         notifications,
         setNotifications,
       }}>

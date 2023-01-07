@@ -23,7 +23,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
 import ChatLoading from "../component/ChatLoading";
-import { getSender } from "../config/ChatLogic";
+import { getSender, getSenderPic } from "../config/ChatLogic";
 import GroupChatModel from "../component/side/GroupChatModal";
 import { MenuKebab, Search } from "../icones/Icones";
 import UserListResult from "./user/UserListResult";
@@ -35,7 +35,7 @@ const MyChats = ({ fetchAgain }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
-  const { selectChat, setSelectChat, user, chats, setChats } = ChatState();
+  const { selectChat, setSelectChat, messages, user, chats, setChats } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -115,7 +115,6 @@ const MyChats = ({ fetchAgain }) => {
         `http://localhost:5000/api/chat`,
         config
       );
-      console.log(data);
       setChats(data);
     } catch (error) {
       toast({
@@ -226,6 +225,7 @@ const MyChats = ({ fetchAgain }) => {
         h="100%"
         borderRadius="lg"
         overflowY="hidden">
+          {console.log(chats)}
         {chats ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
@@ -238,12 +238,21 @@ const MyChats = ({ fetchAgain }) => {
                 py={2}
                 borderRadius="lg"
                 key={chat._id}>
-                {console.log(chat)}
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
+                <Box>
+                  {!chat.isGroupChat ? (
+                    <>
+                    <div style={{display: "flex"}}>
+                      
+                      <Avatar name={getSender(loggedUser, chat.users)} src={getSenderPic(loggedUser, chat.users)} />
+                      <span style={{ paddingLeft: "0.8em", fontSize:"1.1em", fontWeight:"500" }}>
+                        {getSender(loggedUser, chat.users)}
+                      </span>
+                    </div>
+                    </>
+                  ) : (
+                    chat.chatName
+                  )}
+                </Box>
               </Box>
             ))}
           </Stack>

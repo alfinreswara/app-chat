@@ -26,13 +26,12 @@ const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
   const [socketConnection, setSocketConnetion] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const { user, selectChat, setSelectChat, notifications, setNotifications } =
+  const { user, selectChat, setSelectChat,messages, setMessages, notifications, setNotifications } =
     ChatState();
 
   const defaultOptions = {
@@ -58,6 +57,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `http://localhost:5000/api/message/${selectChat._id}`,
         config
       );
+      console.log(data)
+      console.log(user.email)
       setMessages(data);
       setLoading(false);
       socket.emit("join room", selectChat._id);
@@ -84,8 +85,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     fetchMessages();
     selectedChatCompare = selectChat;
   }, [selectChat]);
-
-  console.log(notifications, "as");
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
@@ -195,7 +194,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                       name={selectChat.chatName}
                       src="https://api.iconify.design/majesticons:user-group.svg?color=%23000000"
                     />
-                    {selectChat.chatName}
+                    <span style={{ paddingLeft: "0.3em" }}>
+                      {selectChat.chatName}
+                    </span>
                   </Box>
                   <UpdateGroupChatModel
                     fetchMessages={fetchMessages}
