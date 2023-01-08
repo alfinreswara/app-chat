@@ -15,6 +15,8 @@ import { ChatState } from "../../Context/ChatProvider";
 import { ArrowDown } from "../../icones/Icones";
 import ProfileModal from "./ProfileModal";
 import { getSender } from "../../config/ChatLogic";
+import { Effect } from "react-notification-badge";
+import NotificationBadge from "react-notification-badge/lib/components/NotificationBadge";
 
 const SideDrawer = () => {
   const { user, setSelectChat, notifications, setNotifications } = ChatState();
@@ -38,6 +40,10 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge
+                count={notifications.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2x1" m={1} />
             </MenuButton>
             <MenuList pl={2}>
