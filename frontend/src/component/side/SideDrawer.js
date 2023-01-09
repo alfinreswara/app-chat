@@ -1,4 +1,3 @@
-import { BellIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -32,10 +31,11 @@ const SideDrawer = () => {
         d="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
+        bg="#7f8bff"
         w="100%"
-        p="5px 10px 5px 10px"
-        borderWidth="5px">
+        p="5px 10px 10px 10px"
+        borderBottom="2px"
+        borderColor="#f9f9f9">
         <Text fontSize="2xl"> App chat</Text>
         <div>
           <Menu>
@@ -44,7 +44,6 @@ const SideDrawer = () => {
                 count={notifications.length}
                 effect={Effect.SCALE}
               />
-              <BellIcon fontSize="2x1" m={1} />
             </MenuButton>
             <MenuList pl={2}>
               {!notifications.length && "no new message"}

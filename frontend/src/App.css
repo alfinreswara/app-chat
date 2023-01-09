@@ -3,7 +3,7 @@
 .App {
   min-height: 100vh;
   display: flex;
-  background-image: url("../public/bg.jpg");
+  background-color: #7f8bff;
 }
 ::-webkit-scrollbar {
   width: 0px;

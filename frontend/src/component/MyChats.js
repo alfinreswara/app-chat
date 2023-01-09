@@ -11,6 +11,7 @@ import {
   Menu,
   MenuButton,
   MenuDivider,
+  MenuItem,
   MenuList,
   Spinner,
   Stack,
@@ -28,6 +29,7 @@ import GroupChatModel from "../component/side/GroupChatModal";
 import { MenuKebab, Search } from "../icones/Icones";
 import UserListResult from "./user/UserListResult";
 import ProfileModal from "./side/ProfileModal";
+import { useHistory } from "react-router-dom";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -35,9 +37,10 @@ const MyChats = ({ fetchAgain }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
-  const { selectChat, setSelectChat, messages, user, chats, setChats } = ChatState();
+  const { selectChat, setSelectChat, user, chats, setChats } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const history = useHistory();
 
   const handleSearch = async () => {
     if (!search) {
@@ -127,19 +130,25 @@ const MyChats = ({ fetchAgain }) => {
       });
     }
   };
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    history.push("/");
+  };
 
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
   }, [fetchAgain]);
+
   return (
     <Box
       d={{ base: selectChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItem="center"
       p={3}
-      bg="white"
+      bg="#f9f9f9"
       w={{ base: "100%", md: "31%" }}
+      h="98vh"
       borderRadius="lg"
       borderWidth="1px">
       <Box
@@ -170,6 +179,22 @@ const MyChats = ({ fetchAgain }) => {
               </Button>
             </GroupChatModel>
             <MenuDivider />
+            <ProfileModal user={user}>
+              <MenuItem
+                d="flex"
+                width="100%"
+                fontSize={{ base: "13px", md: "10px", lg: "13px" }}>
+                My Profile
+              </MenuItem>
+            </ProfileModal>
+            <MenuDivider />
+            <MenuItem
+              onClick={logoutHandler}
+              d="flex"
+              width="100%"
+              fontSize={{ base: "13px", md: "10px", lg: "13px" }}>
+              Logout
+            </MenuItem>
           </MenuList>
         </Menu>
       </Box>
@@ -225,32 +250,51 @@ const MyChats = ({ fetchAgain }) => {
         h="100%"
         borderRadius="lg"
         overflowY="hidden">
-          {console.log(chats)}
         {chats ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
               <Box
                 onClick={() => setSelectChat(chat)}
                 cursor="pointer"
-                bg={selectChat === chat ? "#38B2AC" : "#E8E8E8"}
+                bg={selectChat === chat ? "#7f8bff" : "#f0f0f0"}
                 color={selectChat === chat ? "white" : "black"}
-                px={3}
+                px={2}
                 py={2}
                 borderRadius="lg"
                 key={chat._id}>
                 <Box>
                   {!chat.isGroupChat ? (
                     <>
-                    <div style={{display: "flex"}}>
-                      
-                      <Avatar name={getSender(loggedUser, chat.users)} src={getSenderPic(loggedUser, chat.users)} />
-                      <span style={{ paddingLeft: "0.8em", fontSize:"1.1em", fontWeight:"500" }}>
-                        {getSender(loggedUser, chat.users)}
-                      </span>
-                    </div>
+                      <div style={{ display: "flex" }}>
+                        <Avatar
+                          name={getSender(loggedUser, chat.users)}
+                          src={getSenderPic(loggedUser, chat.users)}
+                        />
+                        <span
+                          style={{
+                            paddingLeft: "0.8em",
+                            fontSize: "1.1em",
+                            fontWeight: "500",
+                          }}>
+                          {getSender(loggedUser, chat.users)}
+                        </span>
+                      </div>
                     </>
                   ) : (
-                    chat.chatName
+                    <div style={{ display: "flex" }}>
+                      <Avatar
+                        name={chat.chatName}
+                        src="https://api.iconify.design/majesticons:user-group.svg?color=%23000000"
+                      />
+                      <span
+                        style={{
+                          paddingLeft: "0.8em",
+                          fontSize: "1.1em",
+                          fontWeight: "500",
+                        }}>
+                        {chat.chatName}
+                      </span>
+                    </div>
                   )}
                 </Box>
               </Box>

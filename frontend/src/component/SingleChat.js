@@ -20,7 +20,6 @@ import SrollableChat from "./SrollableChat";
 import io from "socket.io-client";
 import typingAnim from "../animationTyping/typing.json";
 import Lottie from "react-lottie";
-import { MajesticonsUserGroup } from "../icones/Icones";
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -28,18 +27,12 @@ var socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
+  const [messages, setMessages] = useState([]);
   const [socketConnection, setSocketConnetion] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const {
-    user,
-    selectChat,
-    setSelectChat,
-    messages,
-    setMessages,
-    notifications,
-    setNotifications,
-  } = ChatState();
+  const { user, selectChat, setSelectChat, notifications, setNotifications } =
+    ChatState();
 
   const defaultOptions = {
     loop: true,
@@ -64,8 +57,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `http://localhost:5000/api/message/${selectChat._id}`,
         config
       );
-      console.log(data);
-      console.log(user.email);
       setMessages(data);
       setLoading(false);
       socket.emit("join room", selectChat._id);
@@ -93,7 +84,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     selectedChatCompare = selectChat;
   }, [selectChat]);
 
-  console.log(notifications);
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
@@ -170,11 +160,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           <Text
             fontSize={{ base: "28px", md: "30px" }}
             pb={3}
-            px={2}
+            px={3}
+            py={3}
             w="100%"
             d="flex"
             justifyContent={{ base: "space-between" }}
-            alignItems="center">
+            alignItems="center"
+            style={{ borderRadius: "10px 10px 0 0 " }}
+            backgroundColor="#f9f9f9">
             <IconButton
               d={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
@@ -222,7 +215,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             bg="#E8E8E8"
             w="100%"
             h="100%"
-            borderRadius="lg"
+            style={{ borderRadius: "0 0 10px 10px" }}
             overflowY="hidden">
             {loading ? (
               <Spinner

@@ -1,4 +1,4 @@
-import { ViewIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -99,13 +99,14 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
       };
       const { data } = await axios.put(
         `http://localhost:5000/api/chat/groupremove`,
-        { chatId: selectChat._id, UserId: userOne._id },
+        { chatId: selectChat._id, userId: userOne._id },
         config
       );
       userOne._id === user._id ? setSelectChat() : setSelectChat(data);
       setFetchAgain(!fetchAgain);
       fetchMessages();
       setLoading(false);
+      console.log(data);
     } catch (error) {
       toast({
         title: "error occured",
@@ -179,7 +180,11 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   };
   return (
     <>
-      <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+      <IconButton
+        d={{ base: "flex" }}
+        icon={<HamburgerIcon />}
+        onClick={onOpen}
+      />
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -192,7 +197,7 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
             <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
               {selectChat.users.map((us) => (
                 <UserBadgeItem
-                  key={user._id}
+                  key={us._id}
                   user={us}
                   handleFunc={() => handleRemove(us)}
                 />

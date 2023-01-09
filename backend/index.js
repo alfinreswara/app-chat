@@ -44,7 +44,6 @@ io.on("connection", (socket) => {
 
   socket.on("join room", (room) => {
     socket.join(room);
-    console.log("User Joinned room" + room);
   });
 
   socket.on("typing", (room) => socket.in(room).emit("typing"));
