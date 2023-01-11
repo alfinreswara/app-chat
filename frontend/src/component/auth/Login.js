@@ -40,6 +40,7 @@ const Login = () => {
         "http://localhost:5000/api/user/login",
         { email, password }
       );
+      localStorage.setItem("userInfo", JSON.stringify(data));
       toast({
         title: "Login successfully  ",
         status: "success",
@@ -47,13 +48,13 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
+      window.location.reload();
       history.push("/chats");
     } catch (error) {
       toast({
         title: " Error Occured ",
-        description: error.response.data.message,
+        description: error.message,
         status: "error",
         duration: 5000,
         isClosable: true,

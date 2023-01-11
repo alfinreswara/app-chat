@@ -252,6 +252,8 @@ const MyChats = ({ fetchAgain }) => {
         overflowY="hidden">
         {chats ? (
           <Stack overflowY="scroll">
+            {console.log(chats)}
+            {console.log("-----------")}
             {chats.map((chat) => (
               <Box
                 onClick={() => setSelectChat(chat)}
@@ -276,7 +278,28 @@ const MyChats = ({ fetchAgain }) => {
                             fontSize: "1.1em",
                             fontWeight: "500",
                           }}>
-                          {getSender(loggedUser, chat.users)}
+                          {getSender(loggedUser, chat.users)} <br />
+                          <small
+                            style={{
+                              fontWeight: "400",
+                              fontSize: "0.9em",
+                            }}>
+                            {chat.latestMessage && (
+                              <span>
+                                <span>
+                                  {chat.latestMessage.sender.name === user.name
+                                    ? " You : "
+                                    : "  "}
+                                </span>
+                                {chat.latestMessage.content.length > 50
+                                  ? chat.latestMessage.content.substring(
+                                      0,
+                                      51
+                                    ) + "..."
+                                  : chat.latestMessage.content}
+                              </span>
+                            )}
+                          </small>
                         </span>
                       </div>
                     </>
@@ -292,7 +315,27 @@ const MyChats = ({ fetchAgain }) => {
                           fontSize: "1.1em",
                           fontWeight: "500",
                         }}>
-                        {chat.chatName}
+                        {chat.chatName} <br />
+                        <small
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "0.9em",
+                          }}>
+                          {chat.latestMessage && (
+                            <span>
+                              <span>
+                                {chat.latestMessage.sender.name === user.name
+                                  ? " You"
+                                  : chat.latestMessage.sender.name}
+                                {" : "}
+                              </span>
+                              {chat.latestMessage.content.length > 50
+                                ? chat.latestMessage.content.substring(0, 51) +
+                                  "..."
+                                : chat.latestMessage.content}
+                            </span>
+                          )}
+                        </small>
                       </span>
                     </div>
                   )}
