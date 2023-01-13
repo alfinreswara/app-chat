@@ -107,6 +107,20 @@ const MyChats = ({ fetchAgain }) => {
       });
     }
   };
+  const getTimeChat = (time) => {
+    var getHoursChat = new Date(time).getHours();
+    var getMinutesChat = new Date(time).getMinutes();
+    if (getMinutesChat <= 9) {
+      getMinutesChat = `0${getMinutesChat}`;
+    }
+    if (getHoursChat <= 9) {
+      getHoursChat = `0${getHoursChat}`;
+    }
+
+    var timeChat = `${getHoursChat}:${getMinutesChat}`;
+    return timeChat;
+  };
+
   const fetchChats = async () => {
     try {
       const config = {
@@ -252,8 +266,6 @@ const MyChats = ({ fetchAgain }) => {
         overflowY="hidden">
         {chats ? (
           <Stack overflowY="scroll">
-            {console.log(chats)}
-            {console.log("-----------")}
             {chats.map((chat) => (
               <Box
                 onClick={() => setSelectChat(chat)}
@@ -264,7 +276,7 @@ const MyChats = ({ fetchAgain }) => {
                 py={2}
                 borderRadius="lg"
                 key={chat._id}>
-                <Box>
+                <Box d="flex" justifyContent="space-between">
                   {!chat.isGroupChat ? (
                     <>
                       <div style={{ display: "flex" }}>
@@ -302,42 +314,48 @@ const MyChats = ({ fetchAgain }) => {
                           </small>
                         </span>
                       </div>
+                      <small>{getTimeChat(chat.latestMessage.createdAt)}</small>
                     </>
                   ) : (
-                    <div style={{ display: "flex" }}>
-                      <Avatar
-                        name={chat.chatName}
-                        src="https://api.iconify.design/majesticons:user-group.svg?color=%23000000"
-                      />
-                      <span
-                        style={{
-                          paddingLeft: "0.8em",
-                          fontSize: "1.1em",
-                          fontWeight: "500",
-                        }}>
-                        {chat.chatName} <br />
-                        <small
+                    <>
+                      <div style={{ display: "flex" }}>
+                        <Avatar
+                          name={chat.chatName}
+                          src="https://api.iconify.design/majesticons:user-group.svg?color=%23000000"
+                        />
+                        <span
                           style={{
-                            fontWeight: "400",
-                            fontSize: "0.9em",
+                            paddingLeft: "0.8em",
+                            fontSize: "1.1em",
+                            fontWeight: "500",
                           }}>
-                          {chat.latestMessage && (
-                            <span>
+                          {chat.chatName} <br />
+                          <small
+                            style={{
+                              fontWeight: "400",
+                              fontSize: "0.9em",
+                            }}>
+                            {chat.latestMessage && (
                               <span>
-                                {chat.latestMessage.sender.name === user.name
-                                  ? " You"
-                                  : chat.latestMessage.sender.name}
-                                {" : "}
+                                <span>
+                                  {chat.latestMessage.sender.name === user.name
+                                    ? " You"
+                                    : chat.latestMessage.sender.name}
+                                  {" : "}
+                                </span>
+                                {chat.latestMessage.content.length > 50
+                                  ? chat.latestMessage.content.substring(
+                                      0,
+                                      51
+                                    ) + "..."
+                                  : chat.latestMessage.content}
                               </span>
-                              {chat.latestMessage.content.length > 50
-                                ? chat.latestMessage.content.substring(0, 51) +
-                                  "..."
-                                : chat.latestMessage.content}
-                            </span>
-                          )}
-                        </small>
-                      </span>
-                    </div>
+                            )}
+                          </small>
+                        </span>
+                      </div>
+                      <small>{getTimeChat(chat.latestMessage.createdAt)}</small>
+                    </>
                   )}
                 </Box>
               </Box>

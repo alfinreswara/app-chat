@@ -11,6 +11,20 @@ import { ChatState } from "../Context/ChatProvider";
 const SrollableChat = ({ messages }) => {
   const { user } = ChatState();
 
+  const getTimeChat = (time) => {
+    var getHoursChat = new Date(time).getHours();
+    var getMinutesChat = new Date(time).getMinutes();
+    if (getMinutesChat <= 9) {
+      getMinutesChat = `0${getMinutesChat}`;
+    }
+    if (getHoursChat <= 9) {
+      getHoursChat = `0${getHoursChat}`;
+    }
+
+    var timeChat = `${getHoursChat}:${getMinutesChat}`;
+    return timeChat;
+  };
+
   return (
     <ScrollableFeed>
       {messages &&
@@ -29,8 +43,9 @@ const SrollableChat = ({ messages }) => {
                 />
               </Tooltip>
             )}
-            <span
+            <div
               style={{
+                display: "inline-block",
                 backgroundColor: `${
                   m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
                 }`,
@@ -40,8 +55,16 @@ const SrollableChat = ({ messages }) => {
                 padding: "5px 15px",
                 maxWidth: "75%",
               }}>
-              {m.content}
-            </span>
+              <span style={{ fontSize: "1.1rem" }}>{m.content}</span>
+              <small
+                style={{
+                  display: "inline-block",
+                  fontSize: "0.7rem",
+                  paddingLeft: "0.6em",
+                }}>
+                {getTimeChat(m.createdAt)}
+              </small>
+            </div>
           </div>
         ))}
     </ScrollableFeed>
