@@ -314,7 +314,10 @@ const MyChats = ({ fetchAgain }) => {
                           </small>
                         </span>
                       </div>
-                      <small>{getTimeChat(chat.latestMessage.createdAt)}</small>
+                      <small>
+                        {chat.latestMessage &&
+                          getTimeChat(chat.latestMessage.createdAt)}
+                      </small>
                     </>
                   ) : (
                     <>
@@ -354,7 +357,10 @@ const MyChats = ({ fetchAgain }) => {
                           </small>
                         </span>
                       </div>
-                      <small>{getTimeChat(chat.latestMessage.createdAt)}</small>
+                      <small>
+                        {chat.latestMessage &&
+                          getTimeChat(chat.latestMessage.createdAt)}
+                      </small>
                     </>
                   )}
                 </Box>

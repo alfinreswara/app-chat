@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { IcRoundRemoveRedEye, MdiEyeOff } from "../../icones/Icones";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -21,6 +22,11 @@ const Login = () => {
   const history = useHistory();
 
   const handleClick = () => setShow(!show);
+  const submitHandlerKey = (event) => {
+    if (event.key === "Enter") {
+      submitHandler();
+    }
+  };
 
   const submitHandler = async () => {
     setLoading(true);
@@ -64,49 +70,68 @@ const Login = () => {
   };
 
   return (
-    <VStack spacing="5px">
-      <FormControl id="email" isRequired>
+    <VStack spacing="10px">
+      <FormControl w="80%" id="email">
         <FormLabel> Email </FormLabel>
         <Input
+          h="2em"
+          fontSize="1.2em"
+          fontWeight="350"
+          borderRadius="15px"
+          border="2px"
+          p={3}
           value={email}
           placeholder="Email-Address"
           onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={submitHandlerKey}
+          required
         />
       </FormControl>
-      <FormControl id="password" isRequired>
+      <FormControl w="80%" pt={1} pb={5} id="password">
         <FormLabel> password </FormLabel>
         <InputGroup>
           <Input
+            h="2em"
+            fontSize="1.2em"
+            fontWeight="350"
+            borderRadius="15px"
+            border="2px"
+            p={3}
             value={password}
             type={show ? "text" : "password"}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={submitHandlerKey}
+            required
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "hide" : "show"}
-            </Button>
+            <div
+              style={{
+                backgroundColor: "#e8e8e8",
+                padding: "5px",
+                borderRadius: "11px",
+                cursor: "pointer",
+              }}
+              onClick={handleClick}>
+              {show ? (
+                <IcRoundRemoveRedEye width="30px" height="24px" />
+              ) : (
+                <MdiEyeOff width="30px" height="24px" />
+              )}
+            </div>
           </InputRightElement>
         </InputGroup>
       </FormControl>
 
       <Button
+        d="inline-block"
+        w="50%"
         colorScheme="blue"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
         isLoading={loading}>
-        Sign Up
-      </Button>
-      <Button
-        variant="solid"
-        colorScheme="red"
-        width="100%"
-        onClick={() => {
-          setEmail("guest@example.com");
-          setPassword("123456");
-        }}>
-        With Guest
+        Login
       </Button>
     </VStack>
   );

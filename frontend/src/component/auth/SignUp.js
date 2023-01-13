@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { IcRoundRemoveRedEye, MdiEyeOff } from "../../icones/Icones";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -25,9 +26,9 @@ const SignUp = () => {
 
   const handleClick = () => setShow(!show);
 
-  const postDetails = (pics) => {
+  const postDetails = (photoProfil) => {
     setLoading(true);
-    if (pics === undefined) {
+    if (photoProfil === undefined) {
       toast({
         title: "Please Select an Image p",
         status: "warning",
@@ -38,12 +39,12 @@ const SignUp = () => {
       return;
     }
     if (
-      pics.type === "image/jpeg" ||
-      pics.type === "image/png" ||
-      pics.type === "image/jpg"
+      photoProfil.type === "image/jpeg" ||
+      photoProfil.type === "image/png" ||
+      photoProfil.type === "image/jpg"
     ) {
       const data = new FormData();
-      data.append("file", pics);
+      data.append("file", photoProfil);
       data.append("upload_preset", "chat-app");
       data.append("cloud_name", "dnkkxknpz");
       fetch("https://api.cloudinary.com/v1_1/dnkkxknpz/image/upload", {
@@ -73,6 +74,7 @@ const SignUp = () => {
 
   const submitHandler = async () => {
     setLoading(true);
+
     if (!name || !email || !password || !confPassword) {
       toast({
         title: "Please Fill all the feild",
@@ -111,6 +113,7 @@ const SignUp = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
+      window.location.reload();
       history.push("/chats");
     } catch (error) {
       toast({
@@ -127,46 +130,58 @@ const SignUp = () => {
 
   return (
     <VStack spacing="5px">
-      <FormControl id="first-name" isRequired>
+      <FormControl id="first-name">
         <FormLabel> Name </FormLabel>
         <Input
           placeholder="Your Name"
           onChange={(e) => setName(e.target.value)}
+          required
         />
       </FormControl>
-      <FormControl id="email" isRequired>
+      <FormControl id="email">
         <FormLabel> Email </FormLabel>
         <Input
           placeholder="Email-Address"
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
       </FormControl>
-      <FormControl id="password" isRequired>
+      <FormControl id="password">
         <FormLabel> password </FormLabel>
         <InputGroup>
           <Input
             type={show ? "text" : "password"}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "hide" : "show"}
+              {show ? (
+                <IcRoundRemoveRedEye width="30px" height="24px" />
+              ) : (
+                <MdiEyeOff width="30px" height="24px" />
+              )}
             </Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <FormControl id="confPassword" isRequired>
+      <FormControl id="confPassword">
         <FormLabel> cofirm password </FormLabel>
         <InputGroup>
           <Input
             type={show ? "text" : "password"}
             placeholder="Confirm Password"
             onChange={(e) => setConfPassword(e.target.value)}
+            required
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "hide" : "show"}
+              {show ? (
+                <IcRoundRemoveRedEye width="30px" height="24px" />
+              ) : (
+                <MdiEyeOff width="30px" height="24px" />
+              )}
             </Button>
           </InputRightElement>
         </InputGroup>
