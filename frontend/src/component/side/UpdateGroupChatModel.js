@@ -106,7 +106,6 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
       setFetchAgain(!fetchAgain);
       fetchMessages();
       setLoading(false);
-      console.log(data);
     } catch (error) {
       toast({
         title: "error occured",
@@ -164,7 +163,6 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
         `http://localhost:5000/api/user?search=${search}`,
         config
       );
-      console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
