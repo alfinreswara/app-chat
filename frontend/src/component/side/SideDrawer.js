@@ -76,5 +76,12 @@ const SideDrawer = () => {
     </>
   );
 };
+<Box d="inline-block" p="0px" pl="0.3em" mt="-10px">
+  <span>{getSender(user, selectChat.users)}</span>
+  <small style={{ display: "block", marginTop: "-20px" }}>
+    {console.log(online)}
+    {online === selectChat.users._id ? "on" : "of"}
+  </small>
+</Box>;
 
 export default SideDrawer;

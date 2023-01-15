@@ -283,6 +283,7 @@ const MyChats = ({ fetchAgain }) => {
                         <Avatar
                           name={getSender(loggedUser, chat.users)}
                           src={getSenderPic(loggedUser, chat.users)}
+                          bg="#7f8bff"
                         />
                         <span
                           style={{
@@ -325,6 +326,7 @@ const MyChats = ({ fetchAgain }) => {
                         <Avatar
                           name={chat.chatName}
                           src="https://api.iconify.design/majesticons:user-group.svg?color=%23000000"
+                          bg="#7f8bff"
                         />
                         <span
                           style={{
